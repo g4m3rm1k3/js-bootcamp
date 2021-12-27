@@ -12,23 +12,16 @@ const notes = [
 		body: "Get a new seat",
 	},
 ];
-
-// console.log("This is from a different file");
-
-// Query and remove
-// const p = document.querySelector("p");
-// p.remove();
-
-// Query all and remove
-const ps = document.querySelectorAll("p");
-
-ps.forEach(function (p) {
-	p.textContent = `${"*".repeat(p.textContent.length)}`;
-	// console.log(p.textContent);
-	// p.remove();
+document.querySelector("#create-note").addEventListener("click", function (e) {
+	console.log("Did this work");
 });
 
-// Add a new element
-const newParagraph = document.createElement("p");
-newParagraph.textContent = "This is a new element from Javascript";
-document.body.appendChild(newParagraph);
+document.querySelector("#remove-all").addEventListener("click", function (e) {
+	document.querySelectorAll(".note").forEach(function (note) {
+		note.remove();
+	});
+});
+
+document.querySelector("#search-text").addEventListener("input", function (e) {
+	console.log(e.target.value);
+});

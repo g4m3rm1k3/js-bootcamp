@@ -21,3 +21,11 @@ todos.forEach(function (todo) {
 	p.textContent = todo.text;
 	document.body.appendChild(p);
 });
+
+const button = document.createElement("button");
+button.textContent = "Add Todos";
+button.setAttribute("id", "add-todo");
+document.body.appendChild(button);
+button.addEventListener("click", function (e) {
+	e.target.textContent = "Added a new todo";
+});
