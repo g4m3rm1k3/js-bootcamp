@@ -1,6 +1,6 @@
 const todoPlace = document.querySelector("#todoPLace");
 
-const getSavedTodos = function () {
+const getSavedTodos = () => {
 	const todosJSON = localStorage.getItem("todos");
 
 	if (todosJSON !== null) {
@@ -10,51 +10,46 @@ const getSavedTodos = function () {
 	}
 };
 
-const toggleCompleted = function (id) {
-	const todoIndex = todos.findIndex(function (todo) {
-		return todo.id === id;
-	});
+const toggleCompleted = (id) => {
+	const todoIndex = todos.findIndex((todo) => todo.id === id);
 	if (todoIndex > -1) {
 		todos[todoIndex].completed = !todos[todoIndex].completed;
 	}
 };
 
-const removeTodo = function (id) {
-	const todoIndex = todos.findIndex(function (todo) {
-		return todo.id === id;
-	});
+const removeTodo = (id) => {
+	const todoIndex = todos.findIndex((todo) => todo.id === id);
 	if (todoIndex > -1) {
 		todos.splice(todoIndex, 1);
 	}
 };
 
-const saveTodos = function (todos) {
+const saveTodos = (todos) => {
 	localStorage.setItem("todos", JSON.stringify(todos));
 };
 
-const filteredTodos = function (todos, f) {
+const filteredTodos = (todos, f) => {
 	todoPlace.innerHTML = "";
 
-	const filtered = todos.filter(function (todo) {
+	const filtered = todos.filter((todo) => {
 		const searchTextMatch = todo.text.toLowerCase().includes(f.toLowerCase());
 		const hideCompletedMatch = !filters.hide || !todo.completed;
 		return searchTextMatch && hideCompletedMatch;
 	});
 	domSummary(filtered);
-	filtered.forEach(function (todo) {
+	filtered.forEach((todo) => {
 		generateDOM(todo);
 	});
 };
 
-const generateDOM = function (todo) {
+const generateDOM = (todo) => {
 	const div = document.createElement("div");
 	const p = document.createElement("span");
 	const checkbox = document.createElement("input");
 	checkbox.setAttribute("type", "checkbox");
 	checkbox.checked = todo.completed;
-	checkbox.addEventListener("change", function (e) {
+	checkbox.addEventListener("change", (e) => {
 		toggleCompleted(todo.id);
-		// todo.completed = e.target.checked;
 		saveTodos(todos);
 		filteredTodos(todos, "");
 	});
@@ -66,17 +61,15 @@ const generateDOM = function (todo) {
 	button.innerText = "x";
 	div.appendChild(button);
 	p.prepend(checkbox);
-	button.addEventListener("click", function () {
+	button.addEventListener("click", () => {
 		removeTodo(todo.id);
 		saveTodos(todos);
 		filteredTodos(todos, "");
 	});
 };
 
-const domSummary = function (todos) {
-	const Incomplete = todos.filter(function (todo) {
-		return !todo.completed;
-	});
+const domSummary = (todos) => {
+	const Incomplete = todos.filter((todo) => !todo.completed);
 	const p = document.createElement("h2");
 	p.textContent = `You have ${Incomplete.length} todos left`;
 	todoPlace.appendChild(p);

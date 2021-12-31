@@ -9,11 +9,11 @@ const filters = {
 
 filteredTodos(todos, "");
 
-document.querySelector("#search-text").addEventListener("input", function (e) {
+document.querySelector("#search-text").addEventListener("input", (e) => {
 	filteredTodos(todos, e.target.value);
 });
 
-document.querySelector("#add-todo").addEventListener("submit", function (e) {
+document.querySelector("#add-todo").addEventListener("submit", (e) => {
 	e.preventDefault();
 	todos.push({
 		id: uuidv4(),
@@ -26,7 +26,7 @@ document.querySelector("#add-todo").addEventListener("submit", function (e) {
 	filteredTodos(todos, "");
 });
 
-document.querySelector("#toggle").addEventListener("change", function (e) {
+document.querySelector("#toggle").addEventListener("change", (e) => {
 	filters.hide = e.target.checked;
 	filteredTodos(todos, "");
 });
