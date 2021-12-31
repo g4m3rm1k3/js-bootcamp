@@ -9,15 +9,42 @@ const getSavedNotes = function () {
 	}
 };
 
+const saveNotes = function (notes) {
+	localStorage.setItem("notes", JSON.stringify(notes));
+};
+
+const removeNote = function (id) {
+	const noteIndex = notes.findIndex(function (note) {
+		return note.id === id;
+	});
+	if (noteIndex > -1) {
+		notes.splice(noteIndex, 1);
+	}
+};
+
 // Generate the DOM structure for the note
 const generateNoteDOM = function (note) {
-	const newNote = document.createElement("p");
+	const noteEl = document.createElement("div");
+	const textEl = document.createElement("span");
+	const button = document.createElement("button");
+
+	// Setup the remove note button
+	button.textContent = "x";
+	noteEl.append(button);
+	button.addEventListener("click", function () {
+		removeNote(note.id);
+		saveNotes(notes);
+		renderNotes(notes, filters);
+	});
+
+	// Setup the note title text
 	if (note.title.length > 0) {
-		newNote.textContent = note.body;
+		textEl.textContent = note.body;
 	} else {
-		newNote.textContent = "Unnamed note";
+		textEl.textContent = "Unnamed note ";
 	}
-	return newNote;
+	noteEl.append(textEl);
+	return noteEl;
 };
 
 // Render application notes

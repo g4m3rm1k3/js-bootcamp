@@ -15,8 +15,12 @@ document.querySelector("#search-text").addEventListener("input", function (e) {
 
 document.querySelector("#add-todo").addEventListener("submit", function (e) {
 	e.preventDefault();
-	todos.push({ text: e.target.elements.todo.value, completed: false });
-	SaveTodos(todos);
+	todos.push({
+		id: uuidv4(),
+		text: e.target.elements.todo.value,
+		completed: false,
+	});
+	saveTodos(todos);
 
 	e.target.elements.todo.value = "";
 	filteredTodos(todos, "");
