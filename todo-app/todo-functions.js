@@ -10,6 +10,15 @@ const getSavedTodos = function () {
 	}
 };
 
+const toggleCompleted = function (id) {
+	const todoIndex = todos.findIndex(function (todo) {
+		return todo.id === id;
+	});
+	if (todoIndex > -1) {
+		todos[todoIndex].completed = !todos[todoIndex].completed;
+	}
+};
+
 const removeTodo = function (id) {
 	const todoIndex = todos.findIndex(function (todo) {
 		return todo.id === id;
@@ -42,6 +51,13 @@ const generateDOM = function (todo) {
 	const p = document.createElement("span");
 	const checkbox = document.createElement("input");
 	checkbox.setAttribute("type", "checkbox");
+	checkbox.checked = todo.completed;
+	checkbox.addEventListener("change", function (e) {
+		toggleCompleted(todo.id);
+		// todo.completed = e.target.checked;
+		saveTodos(todos);
+		filteredTodos(todos, "");
+	});
 	todoPlace.append(div);
 	p.textContent = todo.text;
 	div.appendChild(p);
@@ -58,7 +74,10 @@ const generateDOM = function (todo) {
 };
 
 const domSummary = function (todos) {
+	const Incomplete = todos.filter(function (todo) {
+		return !todo.completed;
+	});
 	const p = document.createElement("h2");
-	p.textContent = `You have ${todos.length} todos left`;
+	p.textContent = `You have ${Incomplete.length} todos left`;
 	todoPlace.appendChild(p);
 };
