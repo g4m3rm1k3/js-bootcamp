@@ -34,6 +34,7 @@ const generateNoteDOM = function (note) {
 	button.addEventListener("click", function () {
 		removeNote(note.id);
 		saveNotes(notes);
+		renderNotes(notes);
 	});
 
 	// Setup the note title text
@@ -47,9 +48,50 @@ const generateNoteDOM = function (note) {
 	noteEl.append(textEl);
 	return noteEl;
 };
+// Sort your notes by one of three ways
+const sortNotes = function (notes, sortBy) {
+	if (sortBy === "byEdited") {
+		console.log("By Edited");
+		return notes.sort(function (a, b) {
+			if (a.updatedAt > b.updatedAt) {
+				return -1;
+			} else if (a.updatedAt < b.updatedAt) {
+				return 1;
+			} else {
+				return 0;
+			}
+		});
+	} else if (sortBy === "byCreated") {
+		console.log("By Created");
+		return notes.sort(function (a, b) {
+			if (a.createAt > b.createdAt) {
+				return 1;
+			} else if (a.createdAt < b.createdAt) {
+				return -1;
+			} else {
+				return 0;
+			}
+		});
+	} else if (sortBy === "alphabetical") {
+		return notes.sort(function (a, b) {
+			if (a.title.toLowerCase() < b.title.toLowerCase()) {
+				return -1;
+			} else if (a.title.toLowerCase() > b.title.toLowerCase()) {
+				return 1;
+			} else {
+				return 0;
+			}
+		});
+	} else {
+		return notes;
+	}
+	//
+};
 
 // Render application notes
 const renderNotes = function (notes, filters) {
+	debugger;
+	notes = sortNotes(notes, filters.sortBy);
 	const filteredNotes = notes.filter(function (note) {
 		return note.title.toLowerCase().includes(filters.searchText.toLowerCase());
 	});
