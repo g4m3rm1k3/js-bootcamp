@@ -5,6 +5,16 @@ const Hangman = function (word, guesses) {
 	this.status = "playing";
 };
 
+Hangman.prototype.message = function () {
+	const message =
+		this.status === "playing"
+			? `Guesses left: ${this.guesses}`
+			: this.status === "failed"
+			? `Nice try! the word was: ${this.word.join("")}`
+			: "Great work! You Guessed the word";
+	return message;
+};
+
 Hangman.prototype.getPuzzle = function () {
 	let puzzle = "";
 	this.word.forEach((letter) => {
@@ -18,6 +28,10 @@ Hangman.prototype.getPuzzle = function () {
 };
 
 Hangman.prototype.guess = function (letter) {
+	console.log(this.status);
+	if (this.status !== "playing") {
+		return;
+	}
 	letter = letter.toLowerCase();
 	if (!this.guessedLetters.includes(letter) && this.word.includes(letter)) {
 		this.guessedLetters.push(letter);
@@ -33,11 +47,20 @@ Hangman.prototype.guess = function (letter) {
 Hangman.prototype.playing = function () {
 	const win = this.word.every((letter) => this.guessedLetters.includes(letter));
 	const lose = this.guesses === 0;
-	if (!win && !lose) {
+	if (lose) {
+		this.status = "failed";
+	} else if (!win) {
 		this.status = "playing";
 	} else if (win) {
 		this.status = "finished";
-	} else {
-		this.status = "failed";
 	}
+};
+
+const renderGame = function (game, puzzle, message, play) {
+	puzzle.textContent = game1.getPuzzle();
+	const incorrectLetters = game.guessedLetters.filter(
+		(letter) => !game.word.includes(letter)
+	);
+	message.textContent = incorrectLetters.join(", ");
+	play.textContent = game.message();
 };
