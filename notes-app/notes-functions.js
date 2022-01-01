@@ -1,10 +1,11 @@
+"use strict";
+
 // Read saved data from localStorage
 const getSavedNotes = () => {
 	const notesJSON = localStorage.getItem("notes");
-
-	if (notesJSON !== null) {
-		return JSON.parse(notesJSON);
-	} else {
+	try {
+		return notesJSON ? JSON.parse(notesJSON) : [];
+	} catch (e) {
 		return [];
 	}
 };
@@ -42,14 +43,12 @@ const generateNoteDOM = (note) => {
 		textEl.textContent = "Unnamed note ";
 	}
 	textEl.setAttribute("href", `/edit.html#${note.id}`);
-	// textEl.target = "_blank";
 	noteEl.append(textEl);
 	return noteEl;
 };
 // Sort your notes by one of three ways
 const sortNotes = (notes, sortBy) => {
 	if (sortBy === "byEdited") {
-		console.log("By Edited");
 		return notes.sort((a, b) => {
 			if (a.updatedAt > b.updatedAt) {
 				return -1;
@@ -60,7 +59,6 @@ const sortNotes = (notes, sortBy) => {
 			}
 		});
 	} else if (sortBy === "byCreated") {
-		console.log("By Created");
 		return notes.sort((a, b) => {
 			if (a.createAt > b.createdAt) {
 				return 1;

@@ -1,3 +1,5 @@
+"use strict";
+
 const title = document.querySelector("#note-title");
 const body = document.querySelector("#note-body");
 const removeNoteButton = document.querySelector("#remove-note");
@@ -10,7 +12,7 @@ const renderLastEdited = () => {
 	dateElement.textContent = `last edited ${moment(note.updatedAt).fromNow()}`;
 };
 
-if (note === undefined) {
+if (!note) {
 	location.assign("/index.html");
 }
 title.value = note.title;
@@ -41,7 +43,7 @@ window.addEventListener("storage", (e) => {
 			return note.id === noteId;
 		});
 
-		if (note === undefined) {
+		if (!note) {
 			location.assign("/index.html");
 		}
 		title.value = note.title;

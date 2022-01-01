@@ -1,19 +1,20 @@
+"use strict";
+
 const todoPlace = document.querySelector("#todoPLace");
 
 const getSavedTodos = () => {
 	const todosJSON = localStorage.getItem("todos");
-
-	if (todosJSON !== null) {
-		return JSON.parse(todosJSON);
-	} else {
+	try {
+		return todosJSON ? JSON.parse(todosJSON) : [];
+	} catch {
 		return [];
 	}
 };
 
 const toggleCompleted = (id) => {
-	const todoIndex = todos.findIndex((todo) => todo.id === id);
-	if (todoIndex > -1) {
-		todos[todoIndex].completed = !todos[todoIndex].completed;
+	const todo = todos.find((todo) => todo.id === id);
+	if (todo) {
+		todo.completed = !todo.completed;
 	}
 };
 

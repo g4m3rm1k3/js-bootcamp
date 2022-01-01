@@ -1,3 +1,5 @@
+"use strict";
+
 const todos = getSavedTodos();
 
 // Summary message You have 2 todos left (p element)
