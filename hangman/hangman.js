@@ -8,13 +8,13 @@ class Hangman {
 	}
 
 	get message() {
-		const message =
+		const newLocal =
 			this.status === "playing"
 				? `Guesses left: ${this.guesses}`
 				: this.status === "failed"
 				? `Nice try! the word was: ${this.word.join("")}`
 				: "Great work! You Guessed the word";
-		return message;
+		return newLocal;
 	}
 
 	get puzzle() {
@@ -57,8 +57,6 @@ class Hangman {
 		} else if (!this.guessedLetters.includes(letter)) {
 			this.guessedLetters.push(letter);
 			this.guesses--;
-		} else {
-			this.guessedLetters;
 		}
 		this.playing();
 	}
