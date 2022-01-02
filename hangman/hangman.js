@@ -1,66 +1,91 @@
-const Hangman = function (word, guesses) {
-	this.word = word.toLowerCase().split("");
-	this.guesses = guesses;
-	this.guessedLetters = [];
-	this.status = "playing";
-};
-
-Hangman.prototype.message = function () {
-	const message =
-		this.status === "playing"
-			? `Guesses left: ${this.guesses}`
-			: this.status === "failed"
-			? `Nice try! the word was: ${this.word.join("")}`
-			: "Great work! You Guessed the word";
-	return message;
-};
-
-Hangman.prototype.getPuzzle = function () {
-	let puzzle = "";
-	this.word.forEach((letter) => {
-		if (this.guessedLetters.includes(letter.toLowerCase()) || letter === " ") {
-			puzzle += letter;
-		} else {
-			puzzle += "*";
-		}
-	});
-	return puzzle;
-};
-
-Hangman.prototype.guess = function (letter) {
-	console.log(this.status);
-	if (this.status !== "playing") {
-		return;
-	}
-	letter = letter.toLowerCase();
-	if (!this.guessedLetters.includes(letter) && this.word.includes(letter)) {
-		this.guessedLetters.push(letter);
-	} else if (!this.guessedLetters.includes(letter)) {
-		this.guessedLetters.push(letter);
-		this.guesses--;
-	} else {
-		this.guessedLetters;
-	}
-	this.playing();
-};
-
-Hangman.prototype.playing = function () {
-	const win = this.word.every((letter) => this.guessedLetters.includes(letter));
-	const lose = this.guesses === 0;
-	if (lose) {
-		this.status = "failed";
-	} else if (!win) {
+class Hangman {
+	constructor(word, guesses) {
+		this.word = word.toLowerCase().split("");
+		this.guesses = guesses;
+		this.guessedLetters = [];
 		this.status = "playing";
-	} else if (win) {
-		this.status = "finished";
+		this.spaces = false;
 	}
-};
 
-const renderGame = function (game, puzzle, message, play) {
-	puzzle.textContent = game1.getPuzzle();
-	const incorrectLetters = game.guessedLetters.filter(
-		(letter) => !game.word.includes(letter)
-	);
-	message.textContent = incorrectLetters.join(", ");
-	play.textContent = game.message();
-};
+	get message() {
+		const message =
+			this.status === "playing"
+				? `Guesses left: ${this.guesses}`
+				: this.status === "failed"
+				? `Nice try! the word was: ${this.word.join("")}`
+				: "Great work! You Guessed the word";
+		return message;
+	}
+
+	get puzzle() {
+		let puzzle = "";
+		this.word.forEach((letter) => {
+			if (
+				this.guessedLetters.includes(letter.toLowerCase()) ||
+				letter === " "
+			) {
+				puzzle += letter;
+			} else {
+				puzzle += "*";
+			}
+		});
+		return puzzle;
+	}
+	addSpaces() {
+		this.word.forEach((letter) => {
+			if (letter === " ") {
+				this.guessedLetters.push(letter);
+			}
+		});
+		this.spaces = true;
+		return 1;
+	}
+
+	guess(letter) {
+		// if (!this.spaces) {
+		// 	this.addSpaces();
+		// }
+		if (this.status !== "playing") {
+			return;
+		}
+		letter = letter.toLowerCase();
+		if (
+			(!this.guessedLetters.includes(letter) && this.word.includes(letter)) ||
+			letter === " "
+		) {
+			this.guessedLetters.push(letter);
+		} else if (!this.guessedLetters.includes(letter)) {
+			this.guessedLetters.push(letter);
+			this.guesses--;
+		} else {
+			this.guessedLetters;
+		}
+		this.playing();
+	}
+
+	playing() {
+		const win = this.word.every((letter) =>
+			this.guessedLetters.includes(letter)
+		);
+		const lose = this.guesses === 0;
+		if (lose) {
+			this.status = "failed";
+		} else if (!win) {
+			this.status = "playing";
+		} else if (win) {
+			this.status = "finished";
+		}
+	}
+
+	renderGame(puzzle, message, play, guess) {
+		if (guess) {
+			this.guess(guess);
+		}
+		puzzle.textContent = this.puzzle;
+		const incorrectLetters = this.guessedLetters.filter(
+			(letter) => !this.word.includes(letter)
+		);
+		message.textContent = incorrectLetters.join(", ");
+		play.textContent = this.message;
+	}
+}
