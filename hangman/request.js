@@ -1,28 +1,26 @@
-const getWord = (callback) => {
-	// Making an HTTP request
-	const request = new XMLHttpRequest();
-
-	request.addEventListener("readystatechange", (e) => {
-		if (e.target.readyState === 4 && e.target.status === 200) {
-			const data = JSON.parse(e.target.responseText);
-			callback(undefined, data.puzzle);
-		} else if (e.target.readyState === 4) {
-			callback("An error has taken place", undefined);
-		}
-	});
-	request.open("GET", "http://puzzle.mead.io/puzzle?wordCount=3");
-	request.send();
+const getWord = (wordCount) => {
+	return fetch(`http://puzzle.mead.io/puzzle?wordCount=${wordCount}`)
+		.then((response) => {
+			if (response.status === 200) {
+				return response.json();
+			} else {
+				throw new Error("Unable to fetch puzzle");
+			}
+		})
+		.then((data) => {
+			return data.puzzle;
+		});
 };
 
-const getWordSync = () => {
-	const request = new XMLHttpRequest();
-	request.open("GET", "http://puzzle.mead.io/slow-puzzle?wordCount=3", false);
-	request.send();
-
-	if (request.readyState === 4 && request.status === 200) {
-		const data = JSON.parse(request.responseText);
-		return data.puzzle;
-	} else if (request.readyState === 4) {
-		throw new Error("Things did not go well");
-	}
+const getCountryDetails = (term) => {
+	return fetch("https://restcountries.com/v3.1/all")
+		.then((response) => {
+			if (response.status === 200) {
+				return response.json();
+			} else {
+				throw new Error("Unable to fetch Country");
+			}
+		})
+		.then((data) => data.find((country) => country.cca2 === term))
+		.then((country) => country.name.official);
 };
