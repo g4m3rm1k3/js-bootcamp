@@ -22,25 +22,42 @@ getWord(2)
 		console.log(`Error: ${err}`);
 	});
 
-getCountryDetails("MX")
-	.then((data) => {
-		console.log(data);
-	})
-	.catch((error) => {
-		console.log(`Error: ${error}`);
-	});
+// getCountryDetails("MX")
+// 	.then((data) => {
+// 		console.log(data);
+// 	})
+// 	.catch((error) => {
+// 		console.log(`Error: ${error}`);
+// 	});
 
-// fetch("http://puzzle.mead.io/puzzle", {})
+// const getLocation = () => {
+// 	return fetch("https://ipinfo.io/json?token=7e28ef886cbf58").then((response) =>
+// 		response.json()
+// 	);
+// };
+
+// getLocation().then(({ city, region, country }) => {
+// 	console.log(`You are in ${city}, ${region}, ${country}`);
+// });
+
+// getLocation().then(({ country }) => {
+// 	getCountryDetails(country).then((data) => {
+// 		console.log(data);
+// 	});
+// });
+// fetch("https://ipinfo.io/json?token=7e28ef886cbf58")
 // 	.then((response) => {
 // 		if (response.status === 200) {
 // 			return response.json();
 // 		} else {
-// 			throw new Error("Unable to fetch the puzzle");
+// 			throw new Error("Unable to parse Data");
 // 		}
 // 	})
-// 	.then((data) => {
-// 		console.log(data.puzzle);
-// 	})
-// 	.catch((error) => {
-// 		console.log(error);
+// 	.then(({ country }) => {
+// 		fetch("https://restcountries.com/v3.1/all")
+// 			.then((response) => response.json())
+// 			.then((data) => data.find((c) => c.cca2 === country).name.official)
+// 			.then((c) => {
+// 				console.log(c);
+// 			});
 // 	});
