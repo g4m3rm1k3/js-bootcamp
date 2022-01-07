@@ -1,0 +1,26 @@
+{
+  "name": "js-bootcamp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/g4m3rm1k3/js-bootcamp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/g4m3rm1k3/js-bootcamp/issues"
+  },
+  "homepage": "https://github.com/g4m3rm1k3/js-bootcamp#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.16.7",
+    "@babel/core": "^7.16.7"
+  },
+  "dependencies": {
+    "babel-preset-env": "^1.6.1"
+  }
+}

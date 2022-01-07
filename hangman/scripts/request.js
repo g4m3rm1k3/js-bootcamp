@@ -63,7 +63,7 @@ const getCurrentCountry = async () => {
 		const countryCode = await response.json();
 		const response2 = await fetch("https://restcountries.com/v3.1/all");
 		const data = await response2.json();
-		return await data.find((c) => c.cca2 === countryCode.country).name.official;
+		return data.find((c) => c.cca2 === countryCode.country).name.official;
 	}
 };
 
@@ -71,6 +71,6 @@ getCurrentCountry()
 	.then((country) => {
 		console.log(country);
 	})
-	.then((error) => {
+	.catch((error) => {
 		console.log(error);
 	});

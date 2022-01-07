@@ -62,8 +62,8 @@ class Hangman {
 	}
 
 	playing() {
-		const win = this.word.every((letter) =>
-			this.guessedLetters.includes(letter)
+		const win = this.word.every(
+			(letter) => this.guessedLetters.includes(letter) || letter === " "
 		);
 		const lose = this.guesses === 0;
 		if (lose) {
@@ -75,15 +75,31 @@ class Hangman {
 		}
 	}
 
-	renderGame(puzzle, message, play, guess) {
+	renderGame = (puzzle, message, play, guess) => {
 		if (guess) {
 			this.guess(guess);
 		}
-		puzzle.textContent = this.puzzle;
+		const prevPuzzle = this.puzzle;
+
+		let renderedPuzzle = "";
+		for (let i = 0; i < prevPuzzle.length; i++) {
+			renderedPuzzle += `<span>${this.puzzle.slice(i, i + 1)}</span>`;
+		}
+		puzzle.innerHTML = renderedPuzzle;
 		const incorrectLetters = this.guessedLetters.filter(
 			(letter) => !this.word.includes(letter)
 		);
 		message.textContent = incorrectLetters.join(", ");
 		play.textContent = this.message;
-	}
+	};
 }
+
+startGame = async (word, guessed, play, difficulty = 2) => {
+	const puzzle = await getWord(difficulty);
+	const game1 = new Hangman(puzzle, 5);
+	game1.renderGame(word, guessed, play);
+	window.addEventListener("keypress", (e) => {
+		const guess = String.fromCharCode(e.charCode);
+		game1.renderGame(word, guessed, play, guess);
+	});
+};

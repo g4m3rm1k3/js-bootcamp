@@ -1,0 +1,1 @@
+(()=>{"use strict";console.log("index.js"),console.log(36),console.log("Allison"),console.log("".concat("Michael".toUpperCase(),"!")),console.log(100),console.log("Babel"),console.log("Hello")})();
